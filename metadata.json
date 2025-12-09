@@ -1,0 +1,7 @@
+{
+  "name": "LingoPop - Pronunciation Coach",
+  "description": "A YouGlish-style pronunciation tool for Chinese learners using AI to generate context and feedback without YouTube.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
