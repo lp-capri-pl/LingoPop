@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type, Modality } from "@google/genai";
+﻿import { GoogleGenAI, Type, Modality } from "@google/genai";
 import { SentenceContext, PronunciationFeedback } from "../types";
 
 // Helper to get the AI instance. We create a new one to ensure fresh API keys if updated via UI.
@@ -83,7 +83,10 @@ export const generateContextVideo = async (promptText: string): Promise<string> 
   if (window.aistudio && typeof window.aistudio.hasSelectedApiKey === 'function') {
     const hasKey = await window.aistudio.hasSelectedApiKey();
     if (!hasKey) {
-      await window.aistudio.openSelectKey();
+      // Only call openSelectKey if it exists
+      if (typeof window.aistudio.openSelectKey === 'function') {
+        await window.aistudio.openSelectKey();
+      }
     }
   }
 
@@ -185,3 +188,4 @@ export const analyzePronunciation = async (
   if (!json) throw new Error("No feedback generated");
   return JSON.parse(json) as PronunciationFeedback;
 };
+
