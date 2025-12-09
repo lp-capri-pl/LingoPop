@@ -83,7 +83,10 @@ export const generateContextVideo = async (promptText: string): Promise<string> 
   if (window.aistudio && typeof window.aistudio.hasSelectedApiKey === 'function') {
     const hasKey = await window.aistudio.hasSelectedApiKey();
     if (!hasKey) {
-      await window.aistudio.openSelectKey();
+      // Only call openSelectKey if it exists
+      if (typeof window.aistudio.openSelectKey === 'function') {
+        await window.aistudio.openSelectKey();
+      }
     }
   }
 
