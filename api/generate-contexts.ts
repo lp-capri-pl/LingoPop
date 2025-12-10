@@ -1,5 +1,4 @@
-﻿import { GoogleGenAI, Type } from "@google/genai";
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { GoogleGenAI, Type } from "@google/genai";
 
 /**
  * POST /api/generate-contexts
@@ -8,7 +7,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
  *
  * Uses server-only env var: GENAI_API_KEY
  */
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
@@ -16,13 +15,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { query } = req.body ?? {};
   if (!query || typeof query !== "string") {
-    return res.status(400).json({ error: "Missing or invalid ''query'' in request body" });
+    return res.status(400).json({ error: "Missing or invalid 'query' in request body" });
   }
 
   const apiKey = process.env.GENAI_API_KEY;
   if (!apiKey) {
     console.error("GENAI_API_KEY not set");
-    return res.status(500).json({ error: "Server misconfiguration: GENAI_API_KEY not set" });
+    return res.status(500).json({ error: "Server misconfiguration" });
   }
 
   try {
@@ -75,4 +74,3 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: err?.message || "Unknown error from Gemini" });
   }
 }
-
