@@ -1,5 +1,4 @@
-﻿import { GoogleGenAI, Modality } from "@google/genai";
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { GoogleGenAI, Modality } from "@google/genai";
 
 /**
  * POST /api/generate-speech
@@ -8,7 +7,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
  *
  * Uses server-only env var: GENAI_API_KEY
  */
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
@@ -16,7 +15,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { text, voiceName } = req.body ?? {};
   if (!text || typeof text !== "string") {
-    return res.status(400).json({ error: "Missing or invalid ''text'' in request body" });
+    return res.status(400).json({ error: "Missing or invalid 'text' in request body" });
   }
 
   const apiKey = process.env.GENAI_API_KEY;
@@ -52,4 +51,3 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: err?.message || "Unknown error from Gemini" });
   }
 }
-
