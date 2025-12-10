@@ -4,7 +4,7 @@
  * Calls our serverless proxy which performs server-side Gemini calls.
  */
 
-// generateContexts already created earlier; keep same interface
+// generateContexts
 export const generateContexts = async (query: string): Promise<SentenceContext[]> => {
   const res = await fetch("/api/generate-contexts", {
     method: "POST",
@@ -22,6 +22,7 @@ export const generateContexts = async (query: string): Promise<SentenceContext[]
   return payload.data as SentenceContext[];
 };
 
+// analyzePronunciation
 export const analyzePronunciation = async (
   audioBase64: string,
   targetText: string,
@@ -43,10 +44,7 @@ export const analyzePronunciation = async (
   return payload.data as PronunciationFeedback;
 };
 
-/**
- * Request speech generation (TTS) from server
- * Returns base64 audio string (raw PCM/inline data) returned by server
- */
+// generateSpeech (TTS proxy)
 export const generateSpeech = async (text: string, voiceName: string = "Kore"): Promise<string> => {
   const res = await fetch("/api/generate-speech", {
     method: "POST",
@@ -64,10 +62,7 @@ export const generateSpeech = async (text: string, voiceName: string = "Kore"): 
   return payload.data as string;
 };
 
-/**
- * Request video generation (Veo) from server
- * Returns a generated video URI (string) you can fetch or open
- */
+// generateContextVideo (video proxy)
 export const generateContextVideo = async (promptText: string): Promise<string> => {
   const res = await fetch("/api/generate-context-video", {
     method: "POST",
